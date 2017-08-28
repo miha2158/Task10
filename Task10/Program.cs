@@ -9,7 +9,6 @@ namespace Task10
     {
         static void Main(string[] args)
         {
-            //Какое дерево нужно, бинарное или нет?
 
 
         }
