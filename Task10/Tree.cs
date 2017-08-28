@@ -5,6 +5,9 @@
         private T[] queue = new T[0];
         private int levels = 0;
 
+        public int Levels => levels;
+        public T[] Queue => queue;
+
         private int Length => queue.Length;
         public T this[int index]
         {
@@ -33,6 +36,26 @@
             foreach (var node in tree.Nodes)
                 BreadthFirst(node);
             Add(tree.data);
+        }
+        private int CountLevels(Tree<T> tree)
+        {
+            int result = 0;
+            if (tree.Length == 0)
+                return 1;
+
+            foreach (var node in tree.Nodes)
+            {
+                int nodeLevels = CountLevels(node);
+                if (nodeLevels > result)
+                    result = nodeLevels;
+            }
+            return result;
+        }
+
+        public Walk(Tree<T> tree)
+        {
+            levels = CountLevels(tree);
+            BreadthFirst(tree);
         }
     }
 
@@ -97,12 +120,11 @@
                     newNodes[i - 1] = nodes[i];
         }
 
-        public T[] BreadthFirst()
+        public T[] BreadthFirst(out int levels)
         {
-            var result = new T[0];
-
-
-
+            var breadth = new Walk<T>(this);
+            var result = breadth.Queue;
+            levels = breadth.Levels;
             return result;
         }
 
