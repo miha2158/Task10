@@ -1,22 +1,59 @@
 ﻿namespace Task10
 {
+    class Walk<T>
+    {
+        private T[] queue = new T[0];
+        private int levels = 0;
+
+        private int Length => queue.Length;
+        public T this[int index]
+        {
+            get { return queue[index]; }
+            set
+            {
+                if (index < Length)
+                    queue[index] = value;
+                else if (index == Length)
+                {
+                    var newQueue = new T[Length + 1];
+                    for (int i = 0; i < Length; i++)
+                        newQueue[i] = queue[i];
+                    newQueue[Length] = value;
+                    queue = newQueue;
+                }
+            }
+        }
+
+        private void Add(T item)
+        {
+            this[Length] = item;
+        }
+        private void BreadthFirst(Tree<T> tree)
+        {
+            foreach (var node in tree.Nodes)
+                BreadthFirst(node);
+            Add(tree.data);
+        }
+    }
+
     class Tree<T>
     {
         public T data = default(T);
         private Tree<T>[] nodes = new Tree<T>[0];
 
         public int Length => nodes.Length;
-        public Tree<T> this[int i]
+        public Tree<T>[] Nodes => nodes;
+        public Tree<T> this[int index]
         {
             get
             {
-                return nodes[i];
+                return nodes[index];
             }
             set
             {
-                if (i < Length)
-                    nodes[i] = value;
-                else if (i == Length)
+                if (index < Length)
+                    nodes[index] = value;
+                else if (index == Length)
                 {
                     var newNodes = new Tree<T>[Length + 1];
                     for (int j = 0; j < Length; j++)
@@ -26,10 +63,7 @@
             }
         }
 
-        public Tree()
-        {
-            
-        }
+        public Tree() { }
         public Tree(T data)
         {
             this.data = data;
@@ -46,7 +80,7 @@
 
         public void AddNode(T data)
         {
-            nodes[Length] = new Tree<T>(data);
+            this[Length] = new Tree<T>(data);
         }
         public void AddNodes(T[] data)
         {
@@ -63,7 +97,14 @@
                     newNodes[i - 1] = nodes[i];
         }
 
+        public T[] BreadthFirst()
+        {
+            var result = new T[0];
 
+
+
+            return result;
+        }
 
 
 
