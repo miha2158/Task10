@@ -17,10 +17,10 @@
                     queue[index] = value;
                 else if (index == Length)
                 {
-                    var newQueue = new T[Length + 1];
+                    var newQueue = new T[index + 1];
                     for (int i = 0; i < Length; i++)
                         newQueue[i] = queue[i];
-                    newQueue[Length] = value;
+                    newQueue[index] = value;
                     queue = newQueue;
                 }
             }
@@ -32,9 +32,12 @@
         }
         private void BreadthFirst(Tree<T> tree)
         {
+            Add(tree.data);
+            foreach (var node in tree.Nodes)
+                Add(node.data);
+				
             foreach (var node in tree.Nodes)
                 BreadthFirst(node);
-            Add(tree.data);
         }
         private int CountLevels(Tree<T> tree)
         {
@@ -48,7 +51,7 @@
                 if (nodeLevels > result)
                     result = nodeLevels;
             }
-            return result;
+            return result + 1;
         }
 
         public Walk(Tree<T> tree)
