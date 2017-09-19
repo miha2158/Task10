@@ -1,5 +1,6 @@
-﻿namespace Task10 {
-    class Walk<T>
+﻿namespace Task10
+{
+    class Walk <T>
     {
         private T[] queue = new T[0];
         private int levels = 0;
@@ -35,7 +36,7 @@
             Add(tree.data);
             foreach (var node in tree.Nodes)
                 Add(node.data);
-				
+
             foreach (var node in tree.Nodes)
                 BreadthFirst(node);
         }
