@@ -4,6 +4,7 @@
     {
         private T[] queue = new T[0];
         private int levels = 0;
+        public int[] levelsNodeCount = null;
 
         public int Levels => levels;
         public T[] Queue => queue;
@@ -31,14 +32,22 @@
         {
             this[Length] = item;
         }
-        private void BreadthFirst(Tree<T> tree)
+        private void AddRange(T[] items)
         {
-            Add(tree.data);
-            foreach (var node in tree.Nodes)
-                Add(node.data);
+            foreach (T item in items)
+                Add(item);
+        }
+        private void BreadthFirst(Tree<T> tree, int i)
+        {
+            if (i == 0)
+            {
+                foreach (Tree<T> node in tree.Nodes)
+                    Add(node.data);
+                return;
+            }
 
-            foreach (var node in tree.Nodes)
-                BreadthFirst(node);
+            for (int j = 0; j < tree.Length; j++)
+                BreadthFirst(tree[j], i - 1);
         }
         private int CountLevels(Tree<T> tree)
         {
@@ -54,11 +63,28 @@
             }
             return result + 1;
         }
+        private int levelNodeCount(Tree<T> tree, int i)
+        {
+            if (i == 0)
+                return tree.Length;
+            int result = 0;
+            for (int j = 0; j < tree.Length; j++)
+                result += levelNodeCount(tree[j],i - 1);
+            return result;
+        }
 
         public Walk(Tree<T> tree)
         {
             levels = CountLevels(tree);
-            BreadthFirst(tree);
+
+            Add(tree.data);
+            for (int i = 0; i < tree.Length + 1; i++)
+                BreadthFirst(tree, i);
+
+            levelsNodeCount = new int[levels];
+            levelsNodeCount[0] = 1;
+            for (int i = 1; i < levels; i++)
+                levelsNodeCount[i] = levelNodeCount(tree, i-1);
         }
     }
 }

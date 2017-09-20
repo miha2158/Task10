@@ -65,10 +65,11 @@ namespace Task10
                     newNodes[i - 1] = nodes[i];
         }
 
-        public T[] BreadthFirst(out int levels)
+        public T[] BreadthFirst(out int levels, out int[] levelsNodeCount)
         {
             var breadth = new Walk<T>(this);
             var result = breadth.Queue;
+            levelsNodeCount = breadth.levelsNodeCount;
             levels = breadth.Levels;
             return result;
         }

@@ -38,11 +38,14 @@ namespace Task10
             //root.WriteToFile("out.txt");
             root.Write();
 
-            int[] treeArray = root.BreadthFirst(out int countedLevels);
+            int[] treeArray = root.BreadthFirst(out int countedLevels, out int[] levelsNodeCount);
 
             WriteLine();
             WriteLine("Проход дерева в ширину");
             WriteLine(string.Join(" ", treeArray));
+            WriteLine();
+            WriteLine("Количество ээлементов на уровнях");
+            WriteLine(string.Join(" ", levelsNodeCount));
             WriteLine();
             WriteLine("Вычисленная высота равна {0}", countedLevels);
 
